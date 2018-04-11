@@ -3,13 +3,13 @@
 # Display amount of numbers according to difficulty
 # Solve the sudoku (in steps with timer)
 
-
 import random
 
 numbers = [x for x in range(1, 10)]
 solution = [[0 for j in range(9)] for i in range(9)]
 
 def get_range(coord):
+    #return block coordinates
     ranges = [[0,1,2],[3,4,5],[6,7,8]]
     for r in ranges:
         if coord in r:
@@ -19,6 +19,7 @@ def find_numbers(row, column):
     x_range = get_range(column)
     y_range = get_range(row)
 
+    #check for available numbers within the block
     block_ok = numbers.copy()
     for y in y_range:
         for x in x_range:
@@ -26,22 +27,25 @@ def find_numbers(row, column):
             if num in block_ok:
                 block_ok.remove(num)
 
+    #check for available numbers within the row
     row_ok = numbers.copy()
     for num in solution[row]:
         if num in row_ok:
             row_ok.remove(num)
 
+    #check for available numbers within the column
     column_ok = numbers.copy()
     for row in range(9):
         num = solution[row][column]
         if num in column_ok:
             column_ok.remove(num)
 
+    #return numbers that appear in all lists
     numbers_ok = list(set(block_ok) & set(row_ok) & set(column_ok))
     return numbers_ok
 
 
-#generate sudoku
+#--GENERATE SUDOKU--#
 while True:
     restart = False
     
@@ -76,7 +80,7 @@ while True:
     else:
         break
     
-#show result
+#--SHOW RESULT--#
 for row in solution:
     print(row)
 
